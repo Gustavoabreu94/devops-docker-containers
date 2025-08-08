@@ -9,7 +9,7 @@ COPY . .
 
 RUN yarn install 
 RUN yarn run build
-RUN yarn workspaces focus --production --all
+RUN yarn install --production --frozen-lockfile
 
 FROM node:20.11.1-alpine AS production
 
