@@ -56,7 +56,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: danielrodriguess/rocketseat-ci-api:${{ steps.generate_tag.outputs.sha }},danielrodriguess/rocketseat-ci-api:latest
+          tags: gustavoab94/rocketseat-ci-api:${{ steps.generate_tag.outputs.sha }},gustavoab94/rocketseat-ci-api:latest
 
     # - name: Build
     #   run: docker build -t gustavoab94/rocketseat-ci-api:${{ steps.generate_tag.outputs.sha }} .
