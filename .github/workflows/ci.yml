@@ -49,11 +49,11 @@ jobs:
 
     - name: Build
       id: build-docker-image
+      run:  docker build -t rocketseat-ci:${{ steps.generate_tag.outputs.sha }} .
       # env:
       #   REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       #   TAG: ${{ steps.generate_tag.outputs.sha }}
       
-    - run:  docker build -t rocketseat-ci:${{ steps.generate_tag.outputs.sha }} .
       # run: |
       #   docker build -t $REGISTRY/rocketseat-ci:$TAG .
       #   docker tag -t $REGISTRY/rocketseat-ci:$TAG $REGISTRY/rocketseat-ci:latest
