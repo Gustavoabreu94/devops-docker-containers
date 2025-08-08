@@ -9,7 +9,7 @@ COPY . .
 
 RUN yarn install 
 RUN yarn run build
-RUN yarn workspaces focus --production && yarn cache clean
+RUN yarn workspaces focus --production --all
 
 FROM node:20.11.1-alpine AS production
 
