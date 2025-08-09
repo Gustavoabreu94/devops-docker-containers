@@ -46,51 +46,27 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build
+      - name: Build\
+        id: build-docker-image
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           TAG: ${{ steps.generate_tag.outputs.sha }}
         run: |
           docker build -t $REGISTRY/rocketseat-ci:$TAG .
           docker push $REGISTRY/rocketseat-ci:$TAG
+          IMAGE=$(echo $REGISTRY/rocketseat-ci:$TAG)
+          echo "image=$IMAGE" >> $GITHUB_OUTPUT
 
-      # - name: Login into the container registry
-      #   uses: docker/login-action@v3
-      #   with:
-      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      # - name: Build and push
-      #   uses: docker/build-push-action@v5
-      #   with:
-      #     push: true
-      #     tags: gustavoab94/rocketseat-ci-api:${{ steps.generate_tag.outputs.sha }},gustavoab94/rocketseat-ci-api:latest
-
-    # - name: Push image
-    #   run: docker push gustavoab94/rocketseat-ci-api:${{ steps.generate_tag.outputs.sha }}
-    # env:
-    #   REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-    #   TAG: ${{ steps.generate_tag.outputs.sha }}
-
-    # run: |
-    #   docker build -t $REGISTRY/rocketseat-ci:$TAG .
-    #   docker tag -t $REGISTRY/rocketseat-ci:$TAG $REGISTRY/rocketseat-ci:latest
-    #   docker push --all-tags $REGISTRY/rocketseat-ci
-    #   IMAGE=$(echo $REGISTRY/rocketseat-ci:$TAG)
-    #   echo "image=$IMAGE" >> $GITHUB_OUTPUT
-
-    # - name: Deploy to app runner
-    #   id: deploy-app-runner
-    #   uses: awslabs/amazon-app-runner-deploy@main
-    #   with:
-    #     service: ${{ vars.SERVICE_NAME }}
-    #     image: ${{ steps.build-docker-image.outputs.image }}
-    #     access-role-arn: ${{ secrets.AWS_APP_RUNNER_ROLE }}
-    #     region: ${{ secrets.AWS_REGION }}
-    #     cpu: 1
-    #     memory: 2
-    #     port: 3000
-    #     wait-for-service-stability-seconds: 180
-
+      - name: Deploy to app Runner
+        uses: awslabs/amazon-app-runner-deploy@main
+        with:
+          service: rocketseat-api
+          image: ${{ steps.build-docker-image.outputs.image }}
+          access-role-arn: arn:aws:iam::491085418849:role/app-runner-role
+          region: us-east-2
+          cpu: 1
+          memory: 2
+          port: 3000
+     
     # - name: App Runner check
     #   run: echo "App Runner running... ${{ steps.deploy-app-runner.outputs.service-url }}"
