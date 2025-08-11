@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/Gustavoabreu94/rocketseat-ci-api/compare/v1.0.0...v1.0.1) (2025-08-11)
+
+
+### Bug Fixes
+
+* alter permissions ([e7a2e3e](https://github.com/Gustavoabreu94/rocketseat-ci-api/commit/e7a2e3e44cd57e613f97591098e048b62ffb3250))
+
 # 1.0.0 (2025-08-11)
 
 
