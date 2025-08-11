@@ -9,6 +9,7 @@ permissions:
   id-token: write
   contents: write
   issues: write
+  pull-request: write
 
 jobs:
   build:
@@ -70,6 +71,6 @@ jobs:
           cpu: 1
           memory: 2
           port: 3000
-     
+
       - name: App Runner check
         run: echo "App Runner running... ${{ steps.deploy-app-runner.outputs.service-url }}"
